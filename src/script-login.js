@@ -3,21 +3,21 @@ document.getElementById('btn-login').addEventListener('click', async function(ev
     event.preventDefault();
 
     // 1. Captura dos elementos do HTML pelos IDs que adicionamos
-    const campoEmail = document.getElementById('email');
+    const campoUsername = document.getElementById('username');
     const campoSenha = document.getElementById('senha');
 
     // Validação visual simples: verifica se os campos existem no HTML
-    if (!campoEmail || !campoSenha) {
-        console.error("Erro: Verifique se os IDs 'email' e 'senha' estão corretos no HTML.");
+    if (!campoUsername || !campoSenha) {
+        console.error("Erro: Verifique se os IDs 'username' e 'senha' estão corretos no HTML.");
         return;
     }
 
-    const email = campoEmail.value.trim();
+    const username = campoUsername.value.trim();
     const senha = campoSenha.value.trim();
 
     // 2. Validação básica de preenchimento
-    if (!email || !senha) {
-        alert("Por favor, preencha o e-mail e a senha.");
+    if (!username || !senha) {
+        alert("Por favor, preencha o usuário e a senha.");
         return;
     }
 
@@ -28,12 +28,12 @@ document.getElementById('btn-login').addEventListener('click', async function(ev
         this.innerText = "Entrando...";
         this.disabled = true;
 
-        const resposta = await fetch('http://localhost:5000/api/auth/login', {
+        const resposta = await fetch(`${API_BASE_URL}/api/auth/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ email, senha })
+            body: JSON.stringify({ username, senha })
         });
 
         const dados = await resposta.json();
@@ -43,6 +43,7 @@ document.getElementById('btn-login').addEventListener('click', async function(ev
             // Guardamos o Token de segurança e o nome do usuário
             localStorage.setItem('token', dados.token);
             localStorage.setItem('usuarioLogado', dados.usuario.nome);
+            localStorage.setItem('usuarioCargo', dados.usuario.cargo);
 
             // Redireciona para o Dashboard
             window.location.href = "dashboard.html";

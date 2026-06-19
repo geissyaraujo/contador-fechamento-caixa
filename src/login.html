@@ -1,30 +1,33 @@
-    <!DOCTYPE html>
-    <html lang="pt-BR">
-    <head>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<!DOCTYPE html>
+<html lang="pt-BR">
 
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Login | Controle de Caixa</title>
-        <link rel="stylesheet" href="login.css">
-    </head>
-    <body>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Pacifico&display=swap"
+        rel="stylesheet">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Controle de Caixa</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+
+<body>
 
     <div class="login-card">
-        <img src="../assets/Doces e Mimos.png" alt="Doces e Mimos" class="logo">
+        <img src="../assets/logo.png" alt="Doces e Mimos" class="logo">
 
         <h2 class="font-destaque">Login</h2>
         <p class="subtitle">Acesse o sistema da Doces e Mimos</p>
 
-        <label>E-mail ou Usuário</label>
+        <label>Usuário</label>
         <div class="input-group">
             <i class="fa-solid fa-user"></i>
-            <input type="text" id="email" placeholder="seu@email.com">
+            <input type="text" id="username" placeholder="Seu usuário">
         </div>
 
         <label>Senha</label>
@@ -32,17 +35,19 @@
             <i class="fa-solid fa-lock"></i>
             <input type="password" id="senha" placeholder="••••••••">
         </div>
-        
+
         <a href="recuperar_senha.html" class="forgot-password">Esqueceu a senha?</a>
 
         <button id="btn-login">Entrar</button>
 
         <p class="footer-text">Ainda não tem acesso? <a href="cadastro.html"><span>Cadastre-se</span></a></p>
 
-        
-        </div>
+
+    </div>
     </div>
 
+    <script src="config.js"></script>
     <script src="script-login.js"></script>
-    </body>
-    </html>
+</body>
+
+</html>

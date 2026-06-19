@@ -9,7 +9,7 @@
 <body class="sangria-body">
 
     <header class="header-center">
-        <img src="../assets/Doces e Mimos.png" class="logo-solo" alt="Logo">
+        <img src="../assets/logo.png" class="logo-solo" alt="Logo">
         <h1 class="titulo-controle">Controle de Caixa</h1>
         <div class="pill-operacao">
             <span class="icon-cash">📟</span> Operação de Sangria (Retirada)
@@ -92,6 +92,7 @@
 
     <p class="copyright">© 2024 Doces e Mimos System<br>📖 Manual · 🎧 Suporte</p>
 
+    <script src="config.js"></script>
     <script>
     const inputsValor = document.querySelectorAll('.input-valor');
     const totalDisplay = document.querySelector('.retirado-box strong');
@@ -112,7 +113,7 @@
     });
 
     // 2. Função que SALVA TUDO e vai para a próxima tela
-    form.addEventListener('submit', function(e) {
+    form.addEventListener('submit', async function(e) {
         e.preventDefault(); 
 
         // Pega o valor total que está aparecendo na tela
@@ -130,12 +131,39 @@
         if(obs)  textoRelatorio += "Obs: " + obs;
         if(!mot1 && !mot2 && !obs) textoRelatorio = "Nenhuma observação informada.";
 
-        // SALVA NA GAVETA (LocalStorage)
+        // SALVA NA GAVETA (LocalStorage) para o relatório
         localStorage.setItem('totalUltimaSangria', valorTotalSalvar);
         localStorage.setItem('obsUltimaSangria', textoRelatorio);
 
-        // VAI PARA A TELA DE SUCESSO
-        window.location.href = 'sucesso_sangria.html';
+        const token = localStorage.getItem('token');
+        if (!token) {
+            alert('Acesso negado. Faça login novamente.');
+            return;
+        }
+
+        const valorNumerico = parseFloat(valorTotalSalvar.replace(/[R$\s.]/g, '').replace(',', '.')) || 0;
+
+        try {
+            const resposta = await fetch(`${API_BASE_URL}/api/cash/sangria`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ valor: valorNumerico, observacoes: textoRelatorio })
+            });
+
+            if (resposta.ok) {
+                // VAI PARA A TELA DE SUCESSO
+                window.location.href = 'sucesso_sangria.html';
+            } else {
+                const erro = await resposta.json();
+                alert(erro.mensagem || 'Erro ao registrar sangria.');
+            }
+        } catch (error) {
+            console.error('Erro de rede:', error);
+            alert('Erro de conexão com o servidor.');
+        }
     });
     </script>
 </body>

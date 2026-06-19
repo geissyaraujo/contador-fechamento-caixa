@@ -92,7 +92,7 @@
 
                 <div class="sum-box yellow-sum">
                     <span class="label">CAIXA ATUAL</span>
-                    <span class="value">R$ 350,00</span>
+                    <span class="value" id="caixa-atual-valor">R$ 350,00</span>
                     <span class="trend alert">🔒 Fechamento pendente</span>
                 </div>
             </div>
@@ -134,6 +134,7 @@
         </div>
     </div>
 
+    <script src="config.js"></script>
     <script>
     function togglePainel() {
         const painel = document.getElementById('painel-lateral');
@@ -148,7 +149,7 @@
         window.location.href = 'login.html';
     }
 
-    window.onload = function() {
+    window.onload = async function() {
         // 1. Verificar se o usuário está logado
         const token = localStorage.getItem('token');
         const nomeLogado = localStorage.getItem('usuarioLogado');
@@ -170,6 +171,22 @@
             
             // Letra inicial no Avatar
             document.getElementById('avatar-letra').innerText = nomeLogado.charAt(0).toUpperCase();
+        }
+        
+        // 3. Buscar o saldo atual do caixa
+        try {
+            const resposta = await fetch(`${API_BASE_URL}/api/cash/balance`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                }
+            });
+            if (resposta.ok) {
+                const dados = await resposta.json();
+                document.getElementById('caixa-atual-valor').innerText = dados.saldoAtual.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            }
+        } catch (error) {
+            console.error("Erro ao buscar saldo do caixa", error);
         }
     };
 </script>
